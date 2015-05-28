@@ -1,0 +1,273 @@
+<html>
+<head>
+<style>
+body{
+overflow:hidden;
+}
+#road{
+	height:760px;
+	width:250px;
+}
+
+#car{
+	height:80px;
+	width:50px;
+}
+
+#car2{
+	height:80px;
+	width:50px;
+}
+#car3{
+	height:80px;
+	width:50px;
+}
+#car4{
+	height:80px;
+	width:50px;
+}
+
+#car5	{
+	height:80px;
+	width:50px;
+}
+</style>
+
+<script src="jquery.js" type="text/javascript"></script>
+
+<script>
+window.onload=function(){
+	
+	var b=-80;
+
+	var y=500;
+	var speedy=5;
+
+	var ca=450;
+	var cb=550;
+	var d="left";
+	var ca1=ca-7;
+	var ca2=ca+100;
+
+	function fn()
+	{
+		requestAnimationFrame(fn);
+		if(b<y) b=b+speedy;
+		document.getElementById("road").style.top=b+"px";
+
+	if(b>0)
+	b=-80;
+	
+	$(document).keydown(function(e)
+	{
+
+		var key=e.which;
+		if(key=="37") 
+		{
+		document.getElementById("car").style.left=ca1+"px";
+		ca=450;d="left"
+		}
+		else if(key=="39") 
+		{
+		document.getElementById("car").style.left=ca2+"px";
+		ca=450; 
+		d="right"
+		}
+		})
+	}
+fn();
+
+fn2();
+fn4();
+fn6();
+fn8();
+
+}
+</script>
+
+
+<script type="text/javascript">
+
+
+
+
+function fn2()
+{
+
+var b1=-100;
+var y1=700;
+var speedy1=5;
+setTimeout(function(){
+    document.getElementById('car2').style.display = 'block';
+},60
+);
+
+function fn1()
+{
+		var img = document.getElementById('car2');
+		requestAnimationFrame(fn1);
+		if(b1<y1) b1=b1+speedy1;
+		document.getElementById("car2").style.top=b1+"px";
+		collision();
+		if(b1>690)
+		{
+		img.style.visibility = 'hidden';
+		
+		b1=0;
+		img.style.visibility = 'visible';
+		
+		}
+}
+fn1();
+}
+
+
+
+
+</script>
+
+
+<script type="text/javascript">
+
+
+
+
+function fn4()
+{
+
+var b2=200;
+var y2=700;
+var speedy2=5;
+setTimeout(function(){
+    document.getElementById('car3').style.display = 'block';
+},60
+);
+
+function fn3()
+{
+		var img = document.getElementById('car3');
+		requestAnimationFrame(fn3);
+		if(b2<y2) b2=b2+speedy2;
+		document.getElementById("car3").style.top=b2+"px";
+		collision();
+		if(b2>690)
+		{
+		img.style.visibility = 'hidden';
+		
+		b2=0;
+		img.style.visibility = 'visible';
+		
+		}
+}
+fn3();
+}
+
+
+
+
+</script>
+
+<script type="text/javascript">
+
+
+
+
+function fn6()
+{
+
+var b3=-300;
+var y3=700;
+var speedy3=5;
+setTimeout(function(){
+    document.getElementById('car4').style.display = 'block';
+},60
+);
+
+function fn5()
+{
+		var img = document.getElementById('car4');
+		requestAnimationFrame(fn5);
+		if(b3<y3) b3=b3+speedy3;
+		document.getElementById("car4").style.top=b3+"px";
+		collision();
+		if(b3>690)
+		{
+		img.style.visibility = 'hidden';
+		
+		b3=0;
+		img.style.visibility = 'visible';
+		
+		}
+}
+fn5();
+}
+
+
+
+
+</script>
+
+
+<script type="text/javascript">
+
+
+
+
+function fn8()
+{
+
+var b4=-850;
+var y4=700;
+var speedy4=5;
+setTimeout(function(){
+    document.getElementById('car5').style.display = 'block';
+},60
+);
+
+function fn7()
+{
+		var img = document.getElementById('car5');
+		requestAnimationFrame(fn7);
+		if(b4<y4) b4=b4+speedy4;
+		document.getElementById("car5").style.top=b4+"px";
+		collision();
+		if(b4>690)
+		{
+		img.style.visibility = 'hidden';
+		
+		b4=0;
+		img.style.visibility = 'visible';
+		
+		}
+}
+fn7();
+}
+
+
+
+
+</script>
+
+<script type="text/javascript">
+function collision()
+{
+if (document.getElementById("car").style.top<=document.getElementById("car2").style.top || document.getElementById("car").style.top<=document.getElementById("car3").style.top || document.getElementById("car").style.top<=document.getElementById("car4").style.top)
+{
+window.write(document.getElementById("car").style.top +" "+document.getElementById("car2").style.top); 
+}
+
+}
+
+</script>
+
+</head>
+<body>
+<img id="road" src="road.png" style="position:absolute;left:400px">
+<img id="car" src="car1.png" style="position:absolute;left:450px; top:550px">
+<img id="car2" src="car2.png" style="position:absolute;left:450px; top:0px; display:none" />
+<img id="car3" src="car3.png" style="position:absolute;left:550px; top:250px; display:none" />
+<img id="car4" src="car4.png" style="position:absolute;left:450px; top:-300px; display:none" />
+
+
+</body>
+</html>

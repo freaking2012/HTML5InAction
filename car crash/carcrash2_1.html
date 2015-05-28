@@ -1,0 +1,529 @@
+<html>
+<head>
+<title>Car Crash</title>
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+<style>
+body{
+overflow:hidden;
+}
+#back{
+
+position:fixed;
+}
+
+#road{
+position:absolute;
+width:250px;
+}
+.car{
+position:absolute;
+height:80px;
+width:50px;
+}
+#car1{
+position:fixed;
+
+}
+#score1{
+position:absolute;
+width:112px;
+left:50%;
+margin-left:6px;
+top:95%;
+margin-top:5px;
+font-family: 'Oswald';
+font-size:15px;
+font-weight:700;
+text-align: center;
+padding: 5px 10px;
+background : #80B2FF;
+color:white;
+}
+
+
+#over
+{
+	position:fixed;	
+	top:210px;
+	left:370px;	
+	font-family:"Comic Sans MS", cursive, sans-serif;
+	
+	color: #E62E00;
+	line-height: 20px;	
+	padding:10px 20px;
+	font-size:50px;	
+	
+}
+#game{
+position:absolute;
+width:250px;
+height:70px;
+top:50%;
+left:50%;
+transform: translate(-50%,-50%);
+}
+#crash{
+	width:100%;
+	height:100%;
+
+}
+#btn1
+{
+cursor: pointer;
+	
+	
+	position:absolute;
+	width:50%;
+	height:50%;
+	
+	background: #FF3333;
+	border-radius: 3px;
+	box-shadow: 0px 4px rgba(0, 0, 0, 0.2);
+	
+	
+	padding: 8px 15px 8px 15px;
+	color: white;
+	
+	text-align: center;
+	text-weight:bold;
+	font-size:35px;
+	/* prevent selection of text inside keys */
+	user-select: none;
+	
+	/* Smoothing out hover and active states using css3 transitions */
+	transition: all 0.5s ease;
+}
+#btn1:hover {
+background: #FF1919;
+
+border : 1 px;
+	box-shadow: 0px 2px #4C0000;
+	
+	
+	
+	}
+
+
+
+
+#multiplier
+{
+position:absolute;
+width:112px;
+
+left:50%;
+margin-left:-112px;
+top:95%;
+margin-top:5px;
+font-family: 'Oswald';
+font-size:15px;
+font-weight:700;
+text-align: center;
+padding: 5px 10px;
+background : #80B2FF;
+color:white;
+}
+
+#fuel_bar1
+{
+position:absolute;
+width:250px;
+height:25px;
+left:50%;
+top:0px;
+margin-left:-112px;
+background:#CAEBCA;
+
+}
+#fuel_bar
+{
+position:absolute;
+width:250px;
+height:25px;
+left:50%;
+top:0px;
+margin-left:-112px;
+background:#7ACC7A;
+text-align:right;
+}
+#fuel_text
+{
+position:absolute;
+width:250px;
+height:25px;
+left:50%;
+margin-left:-112px;
+top:0px;
+font-family: 'Oswald';
+font-size:25px;
+font-weight:700;
+text-align: center;
+font-family:Arial;
+
+color:green;
+}
+#fuel
+{
+position:fixed;
+height:60px;
+width:60px;
+top:-100px;
+left:-100px;
+}
+#x5{
+position:fixed;
+height:50px;
+width:50px;
+top:-100px;
+left:-100px;
+}
+#x10{
+position:fixed;
+height:50px;
+width:50px;
+top:-100px;
+left:-100px;
+}
+
+#road{
+position:absolute;
+left:50%;
+top:50%;
+transform:translate(-45%,0%);
+
+
+}
+
+</style>
+<script src="scripts/jquery.js" type="text/javascript"></script>
+<script src="scripts/jquery.mobile-1.4.js" type="text/javascript"></script>
+<link rel="stylesheet" href="styles/jquery_mobile.css">
+<script>
+
+function disableF5(e) { if ((e.which || e.keyCode) == 116) e.preventDefault(); };
+$(document).bind("keydown", disableF5);
+$(document).on("keydown", disableF5);
+
+
+window.onload=function(){
+$(window).on("swipeleft",function()
+					{
+							$("#car1").css({left:car_pos[0]});
+					});
+		
+		$(window).on("swiperight",function()
+					{
+							$("#car1").css({left:car_pos[1]});
+					});
+					
+					$(document).delegate(".ui-content", "scrollstart", false);
+					$(document).delegate(".ui-content", "scrollstart", false);
+					
+var H=window.innerHeight;
+var W=window.innerWidth;
+
+$("#game").hide();
+
+$("#crash").css({top:H/2-150,left:W/2-190});
+$("#btn1").css({top:0,left:58});
+$("#over").css({top:H/2-120,left:W/2-160});
+$("#car1").css({top:H-150,left:W/2-60});
+
+
+
+var top1,bottom1,left1;
+var top2,bottom2,left2;
+var top3,bottom3,left3;
+var top4,bottom4,left4;
+
+var score=0;
+var stage=1;
+var score_count=0;
+
+
+var road_speed=5;
+var road_top=-80;
+var  car_damaged;
+
+var car_speed=5;
+var car2_top=-150;
+
+
+var car3_top=-400;
+
+
+var car4_top=-650;
+
+var car_pos= Array(W/2-60,W/2+40);
+var pos2,pos3,pos4;
+var car2_t=0;
+
+
+var ov="false";
+var fuel_top;
+var fuel_left;
+var fuel_t=0;	
+var fuel_bar_w=250;
+var car2_r,car3_r,car4_r;
+	var bonus="#fuel";
+	var bonus_array= Array("#fuel","#x10","#x5");;
+
+	
+	function animate()
+	{
+		
+		//car_speed = Math.floor(Math.random()*5+3);
+		
+		
+		fuel_top=$(bonus).offset().top;
+		fuel_bottom=fuel_top+60;
+		fuel_left=$(bonus).offset().left;
+		
+		if(fuel_top<H+50&&fuel_top>0&&fuel_left>0)
+		$(bonus).css({top:fuel_top+=5});
+		
+		if(fuel_top>H+50)
+		$(bonus).css({visibility:"hidden",top:"-100px"});
+		
+		
+		road_top+=road_speed;
+		$("#road").css({top:road_top});
+		if(road_top>=0)
+		road_top=-80;
+		
+		
+		if(car2_top>=-100&&car2_top<-80)		
+		{
+			 car2_r=Math.floor(Math.random()*2);
+		}
+		
+		
+		car2_top+=car_speed;		
+		$("#car2").css({top:car2_top,left:car_pos[car2_r]});
+		if(car2_top>=H)
+		car2_top=-100;
+		
+		
+		if(car3_top>=-100&&car3_top<-80)		
+		{
+			 car3_r=Math.floor(Math.random()*2);			
+		}
+		car3_top+=car_speed;		
+		$("#car3").css({top:car3_top,left:car_pos[car3_r]});
+		if(car3_top>=H)
+		car3_top=-100;
+		
+		
+		
+		if(car4_top>=-100&&car4_top<-80)				
+		{
+			 car4_r=Math.floor(Math.random()*2);			
+		}
+		car4_top+=car_speed;		
+		$("#car4").css({top:car4_top,left:car_pos[car4_r]});
+		if(car4_top>=H)
+		car4_top=-100;
+		
+		
+		
+		collision();		
+	
+	}
+	
+	
+	
+	
+	function collision()
+	{
+		
+		 top1=$("#car1").offset().top;
+		 bottom1 = top1+80;
+		 left1=$("#car1").offset().left;
+		
+		 top2=$("#car2").offset().top;
+		 bottom2 = top2+80;
+		 left2=$("#car2").offset().left;
+		
+		 top3=$("#car3").offset().top;
+		 bottom3 = top3+80;
+		 left3=$("#car3").offset().left;
+		
+		 top4=$("#car4").offset().top;
+		 bottom4 = top4+80;
+		 left4=$("#car4").offset().left;
+		
+		
+		
+		
+		
+		if(top1+2<=bottom2&&left1==left2&&bottom1>top2)
+		{
+		
+		car_damaged=2;
+		game_over();
+		}		
+		else if(top1+2<=bottom3&&left1==left3&&bottom1>top3)
+		{
+		
+		car_damaged=3;
+		game_over();			
+		}
+		else if(top1+2<=bottom4&&left1==left4&&bottom1>top4)
+		{
+		
+		car_damaged=4;
+		game_over();
+		}
+		 
+		 
+		 if(top2<200)
+		 car2_t=0;
+		if((top2>=top1)&&(top2>400)&&(Math.abs(top2)-car2_t>200)) 				
+		{
+		car2_t=top2;
+		score+=stage;
+		score_count++;
+		}
+		if(top3<200)
+		 car3_t=0;
+		if((top3>=top1)&&(top3>400)&&(Math.abs(top3)-car3_t>200)) 				
+		{
+		car3_t=top3;
+		score+=stage;
+		score_count++;
+		}
+		if(top4<200)
+		 car4_t=0;
+		if((top4>=top1)&&(top4>400)&&(Math.abs(top4)-car4_t>200)) 				
+		{
+		car4_t=top4;
+		score+=stage;
+		score_count++;
+		}
+		
+		if(fuel_top<0)
+		fuel_t=0;
+		if(fuel_top>top1&&fuel_bottom<bottom1&&Math.abs(fuel_top)-fuel_t>200&&fuel_top>400&&fuel_left==left1)
+		{
+		if(bonus=="#fuel")
+		{
+			if(fuel_bar_w<220)
+			fuel_bar_w+=30;
+			else
+			fuel_bar_w+=5;
+		}
+		else if(bonus=="#x5")
+		score+=5;
+		else if(bonus=="#x10")
+		score+=10;
+		
+		$(bonus).css({visibility:"hidden"});
+		fuel_t=fuel_top;
+		}
+		if(fuel_bar_w==0)
+		{
+		$("#crash").attr("src","images/no_fuel.png");
+		game_over();
+		
+		}
+		
+		if(score_count==5*stage+5)
+		{
+		//$("#multiplier").effect("scale",{percent: 50},"1000");
+		//$("#multiplier").css({'background':'red'}).delay(1000);
+		//$("#multiplier").css({'background':'yellow'}).delay(1000);
+		//$("#multiplier").animate({bottom:"2px",left:"5px",height:"30px",width:"80px"});	
+		//$("#multiplier").animate({bottom:"10px",left:"15px",height:"25px",width:"75px"});	
+		stage++;
+		$( "#multiplier" ).fadeTo( "slow" , 0.2);	
+		$( "#multiplier" ).fadeTo( "slow" , 1);				
+		car_speed+=1;		
+		score_count=0;
+		}
+		
+		
+		
+		$("#score1").html("Score: "+score);		
+		$("#multiplier").html("Level: "+stage);	
+		
+	}
+	
+	function game_over(){	
+		clearInterval(loop);
+		clearInterval(fuel_loop);
+		switch(car_damaged)
+		{
+			case 2:$('#car2').attr('src','images/car02.png');
+					break;
+			case 3:$('#car3').attr('src','images/car03.png');
+					break;						
+			case 4:$('#car4').attr('src','images/car04.png');
+					break;
+		}
+		$('#car1').attr('src','images/car01.png');
+		$("#game").show();
+		$("#fuel").hide();
+		$("#x10").hide();
+		$("#x5").hide();
+			ov="true";
+			
+		
+	}
+	
+	
+	$(document).keydown(function(e){
+	
+
+		var key=e.which;
+		if(ov=="false")		
+		{
+		if(key=="37") {$("#car1").css({left:car_pos[0]});}
+		else if(key=="39") {$("#car1").css({left:car_pos[1]});}
+	
+		}
+	})
+	
+	var loop=setInterval(animate,15);
+	
+		
+	setInterval(function(){if(score%4==0&&fuel_top<0)
+	{
+		bonus=bonus_array[Math.floor(Math.random()*3)]
+		$(bonus).css({visibility:"visible",top:"1px"});
+		var fuel_w = Math.floor(Math.random()*2);
+		$(bonus).css({left:car_pos[fuel_w]});
+		}},1500);
+	
+	var fuel_loop=setInterval(function(){
+	$("#fuel_bar").css({width:fuel_bar_w});
+		fuel_bar_w--;
+		},600);
+		
+}
+	
+</script>
+</head>
+<body>
+<!--<img id="back" src="grass3.jpg">-->
+<img id="road" src="images/road.png">
+<img id="fuel" src="images/fuel.png">
+<img id="x5" src="images/x5.png">
+<img id="x10" src="images/x10.png">
+<img id="car1" src="images/car1.png" class="car">
+<img id="car2" src="images/car2.png" class="car">
+<img id="car3" src="images/car3.png" class="car">
+<img id="car4" src="images/car4.png" class="car">
+
+<div id="game">
+
+<div id="btn1" onClick="location.reload()">Restart</div>
+</div>
+<div id="score1">Score 0</div>
+<div id="multiplier">Level 1</div>
+
+
+<div id="fuel_bar1"></div>
+<div id="fuel_bar"></div><span id="fuel_text">Fuel</span>
+
+</body>
+</html>

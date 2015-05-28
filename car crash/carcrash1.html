@@ -1,0 +1,318 @@
+<html>
+<head>
+<title>Car Crash</title>
+<style>
+body{
+overflow:hidden;
+}
+#road{
+position:absolute;
+width:250px;
+left:400px;
+}
+.car{
+position:absolute;
+height:80px;
+width:50px;
+}
+#car1{
+position:fixed;
+left:450px;
+bottom:50px;
+}
+#score1{
+position:fixed;
+font-family: 'Oswald';
+font-size:20px;
+font-weight:700;
+right:5px;
+background : #80B2FF;
+border-radius: 2px;
+padding:3px 10px;
+bottom : 2px;
+color:white;
+}
+
+
+#over
+{
+	position:fixed;	
+	top:210px;
+	left:370px;	
+	font-family:"Comic Sans MS", cursive, sans-serif;
+	color: #E62E00;
+	line-height: 20px;
+	
+	padding:10px 20px;
+	font-size:50px;	
+	
+}
+#btn1
+{
+cursor: pointer;
+	
+	position:fixed;top:280px;left:490px;
+	width: 85px;
+	height: 35px;
+	
+	
+	background: black;
+	border-radius: 3px;
+	box-shadow: 0px 4px rgba(0, 0, 0, 0.2);
+	
+	margin: 0 7px 11px 0;
+	
+	color: white;
+	line-height: 36px;
+	text-align: center;
+	text-weight:bold;
+	font-size:20px;
+	/* prevent selection of text inside keys */
+	user-select: none;
+	
+	/* Smoothing out hover and active states using css3 transitions */
+	transition: all 0.5s ease;
+}
+#btn1:hover {
+background: #3399FF;
+
+border : 1 px;
+	box-shadow: 0px 4px black;
+	
+	
+	
+	}
+#game{
+
+padding:20px 80px 90px 80px;;
+border-radius: 10px;
+border-style:groove;
+opacity:0.7;
+border : groove 5px #0000CC;
+position:fixed;
+width:200px;
+height:50px;
+top:180px;
+left:350px;
+background:#F5FFFF;
+}
+
+#multiplier
+{
+position:fixed;
+font-family: 'Oswald';
+font-size:20px;
+font-weight:700;
+left:5px;
+background : #80B2FF;
+border-radius: 2px;
+padding:3px 10px;
+bottom : 2px;
+color:white;
+}
+
+
+</style>
+<script src="jquery.js" type="text/javascript"></script>
+<script>
+window.onload=function(){
+var H=window.innerHeight;
+var W=window.innerWidth;
+$("#road").css({height:H+90});
+$("#game").hide();
+
+
+var score=0;
+var stage=1;
+var score_count=0;
+
+
+var road_speed=5;
+var road_top=-80;
+var  car_damaged;
+
+var car_speed=5;
+var car2_top=-150;
+
+
+var car3_top=-400;
+
+
+var car4_top=-650;
+
+var car_pos= Array(450,550);
+var pos2,pos3,pos4;
+var car2_t=0;
+
+var ov="false";
+	function animate()
+	{
+		road_top+=road_speed;
+		$("#road").css({top:road_top});
+		if(road_top>=0)
+		road_top=-80;
+		
+		car2_top+=car_speed;
+		car2_r=Math.floor(Math.random()*10);	
+		if(car2_top==-95)		
+		if(car2_r%2==0)		
+		pos2=car_pos[0];
+		else
+		pos2=car_pos[1];
+		$("#car2").css({top:car2_top,left:pos2});
+		if(car2_top>=H)
+		car2_top=-100;
+		
+		car3_top+=car_speed;
+		car3_r=Math.floor(Math.random()*10);	
+		if(car3_top==-95)		
+		if(car3_r%2==1)		
+		pos3=car_pos[0];
+		else
+		pos3=car_pos[1];
+		$("#car3").css({top:car3_top,left:pos3});
+		if(car3_top>=H)
+		car3_top=-100;
+		
+		car4_top+=car_speed;
+		car4_r=Math.floor(Math.random()*10);	
+		if(car4_top==-95)		
+		if(car4_r%3==1)		
+		pos4=car_pos[0];
+		else
+		pos4=car_pos[1];
+		$("#car4").css({top:car4_top,left:pos4});
+		if(car4_top>=H)
+		car4_top=-100;
+		
+		collision();		
+	
+	}
+	
+	
+	
+	function collision()
+	{
+		//document.write($("#car2").offset().bottom);
+		var top1=$("#car1").offset().top;
+		var bottom1 = top1+80;
+		var left1=$("#car1").offset().left;
+		
+		var top2=$("#car2").offset().top;
+		var bottom2 = top2+80;
+		var left2=$("#car2").offset().left;
+		
+		var top3=$("#car3").offset().top;
+		var bottom3 = top3+80;
+		var left3=$("#car3").offset().left;
+		
+		var top4=$("#car4").offset().top;
+		var bottom4 = top4+80;
+		var left4=$("#car4").offset().left;
+		
+		
+		if(top1+5<=bottom2&&left1==left2&&bottom1>top2)
+		{
+		
+		car_damaged=2;
+		game_over();
+		}		
+		else if(top1+5<=bottom3&&left1==left3&&bottom1>top3)
+		{
+		
+		car_damaged=3;
+		game_over();			
+		}
+		else if(top1+5<=bottom4&&left1==left4&&bottom1>top4)
+		{
+		
+		car_damaged=4;
+		game_over();
+		}
+		 
+		 
+		 if(top2<200)
+		 car2_t=0;
+		if((top2>=top1)&&(top2>400)&&(Math.abs(top2)-car2_t>200)) 				
+		{
+		car2_t=top2;
+		score+=stage;
+		score_count++;
+		}
+		if(top3<200)
+		 car3_t=0;
+		if((top3>=top1)&&(top3>400)&&(Math.abs(top3)-car3_t>200)) 				
+		{
+		car3_t=top3;
+		score+=stage;
+		score_count++;
+		}
+		if(top4<200)
+		 car4_t=0;
+		if((top4>=top1)&&(top4>400)&&(Math.abs(top4)-car4_t>200)) 				
+		{
+		car4_t=top4;
+		score+=stage;
+		score_count++;
+		}
+		if(score_count==5*stage+5)
+		{
+		stage++;
+		car_speed+=1;		
+		score_count=0;
+		}
+		
+		$("#score1").html("Score: "+score);		
+		$("#multiplier").html("Level: "+stage);	
+	}
+	
+	function game_over(){	
+		clearInterval(loop);
+		switch(car_damaged)
+		{
+			case 2:$('#car2').attr('src','car02.png');
+					break;
+			case 3:$('#car3').attr('src','car03.png');
+					break;						
+			case 4:$('#car4').attr('src','car04.png');
+					break;
+		}
+		$('#car1').attr('src','car01.png');
+		$("#game").show();
+			ov="true";
+		
+	}
+	
+	$(document).keydown(function(e){
+	
+
+		var key=e.which;
+		if(ov=="false")		
+		{
+		if(key=="37") {$("#car1").css({left:car_pos[0]});}
+		else if(key=="39") {$("#car1").css({left:car_pos[1]});}
+		}
+	})
+	
+	var loop=setInterval(animate,15);
+
+
+}
+</script>
+</head>
+<body>
+<img id="road" src="road.png">
+<img id="car1" src="car1.png" class="car">
+<img id="car2" src="car2.png" class="car">
+<img id="car3" src="car3.png" class="car">
+<img id="car4" src="car4.png" class="car">
+<div id="game">
+
+<div id="over">Car Crashed!!</div>
+<span id="btn1" onClick="location.reload()">Restart</span>
+</div>
+<div id="score1">Score 0</div>
+<div id="multiplier">Level 1</div>
+
+</body>
+</html>

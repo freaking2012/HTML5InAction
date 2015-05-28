@@ -1,0 +1,246 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Bar</title>
+<style>
+label
+{
+	color: #33AB3D;
+	line-height: 20px;
+	text-align: center;
+	font-weight:bold;
+	
+
+}
+#gs
+{
+color: DARKBLUE;
+	line-height: 30px;
+	text-align: center;
+	font-weight:bold;
+}
+label:hover
+{
+	font-size:110%;
+	color: GREEN;	
+}
+
+#game{
+
+padding:20px 80px 70px 80px;;
+border-radius: 10px;
+border : solid 2px black;
+position:fixed;
+}
+
+#score
+{
+position:fixed;
+	color: #F50C3F;
+		
+	text-wight:bold;
+	color: #0F0F0F;
+		font-size:250%;
+text-shadow:  1px 1px #7A7B7D;
+}
+#btn1
+{
+cursor: pointer;
+	
+	position:fixed;
+	width: 85px;
+	height: 35px;
+	
+	
+	background: black;
+	border-radius: 3px;
+	box-shadow: 0px 4px rgba(0, 0, 0, 0.2);
+	
+	margin: 0 7px 11px 0;
+	
+	color: white;
+	line-height: 36px;
+	text-align: center;
+	text-weight:bold;
+	
+	/* prevent selection of text inside keys */
+	user-select: none;
+	
+	/* Smoothing out hover and active states using css3 transitions */
+	transition: all 0.5s ease;
+}
+#btn1:hover {
+background: lightgray;
+border : 1 px;
+	box-shadow: 0px 4px black;
+	color: black;
+	
+	
+	}
+*{margin:0;padding:0;}
+
+</style>
+<script src="scripts/jquery.js" type="text/javascript"></script>
+
+<script>
+window.onload=function(){
+var W = window.innerWidth;
+var H = window.innerHeight-10;
+$("#game").css('top', H/2-120);
+$("#game").css('left', W/2-110);
+$("#btn1").css('top',H/2);
+$("#btn1").css('left',W/2-30);
+$("#score").css('top',H/2+80);
+$("#score").css('left',W/2-50);
+
+}
+function btn(){
+
+var canvas = document.getElementById("canvas");
+var W = canvas.width = window.innerWidth;
+var H = canvas.height = window.innerHeight-10;
+
+ 
+var ctx = canvas.getContext("2d");
+var d="right";
+var posx=W/2-20;
+var posy=H-10;
+var ballx=posx+40;
+var bally=posy-30;
+var dirx=5;
+var diry=5;
+var loop;
+	ball_image = new Image();
+  ball_image.src = 'images/ball.png';
+ var score=0;
+ 
+  
+function bar()
+{
+	
+	ctx.fillStyle="blue";
+ctx.fillRect(posx,posy,100,10);
+}
+
+function ball()
+{
+	
+	
+	
+
+	ctx.drawImage(ball_image,ballx,bally,30,30);
+		
+	
+		if(ballx<0)
+		{
+			ballx=20;
+			dirx*=-1
+		}
+		if(bally<0)
+		{
+		bally=0;
+		diry*=-1;
+		}
+		if(ballx>W-20)
+		{
+			ballx=W-20;
+			dirx*=-1;
+		}
+		if((bally>posy-30)&&(ballx>=posx)&&(ballx<posx+100))
+		{
+			bally=posy-30;
+			diry*=-1;
+			score++;
+		}
+		if((bally>posy+20)&&(ballx<posx))
+		{
+		
+		clearInterval(loop);
+		game_over();
+		}
+		else if((bally>posy+20)&&(ballx>posx+100))
+		{
+		clearInterval(loop);
+		game_over();
+		
+		}
+		ballx+=dirx;
+		bally+=diry;
+	
+	
+}
+
+function game_over(){	
+		
+	
+		document.getElementById("score").innerHTML = "Score : "+score;
+		$("#score").show();
+		$("#game").show();
+		
+		
+	}
+
+function draw()
+{
+		
+		$("#game").hide();
+		
+		if(posx<=0)
+		{
+		posx=0;		
+		}
+		if(posx>W-90)
+		{
+		posx=posx-20;
+		}
+		
+
+		ctx.fillStyle="White";
+		ctx.fillRect(0,0,W,H);
+		ctx.fillStyle="Black"
+		ctx.font = "20px Arial";
+		
+		ctx.fillStyle="BLACK";
+		var score_text = "Score: " + score;
+		ctx.fillText(score_text, W-100, H-5);
+		bar();		
+		ball();
+	
+}
+
+$(document).keydown(function(e){
+
+		var key=e.which;
+		if(key=="37") {posx-=50;d="left"}
+		else if(key=="39") {posx+=50; d="right"}
+		
+
+})
+
+if(document.getElementById('s').checked)
+loop=setInterval(draw,15);
+if(document.getElementById('f').checked)
+loop=setInterval(draw,10);
+if(document.getElementById('vf').checked)
+loop=setInterval(draw,7);
+
+}
+</script>
+</head>
+<body>
+<div id="game" >
+<span id="gs">Game Speed</span><br/>
+<input type="radio" class="speed" name="s" id="s" value="Slow" checked> <label for="s" class="lbl" id="ls">Slow</label><br/>
+
+<input type="radio" class="speed" name="s" id="f" value="Fast"> <label for="f" class="lbl"  id="lf">Fast</label><br/>
+
+<input type="radio" class="speed" name="s" id="vf" value="Very Fast"><label for="vf" class="lbl"  id="lvf">Very Fast</label> <br/>
+<span id="btn1" onClick="btn()">Start Game</span>
+
+<span id="score"></span>
+<h1 id="score" style="font-weight:bold;position:fixed;top:440px;left:470px;"></h1></div>
+<canvas id="canvas">
+</canvas>
+
+</body>
+</html>

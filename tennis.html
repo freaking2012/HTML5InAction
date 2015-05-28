@@ -1,0 +1,359 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Bar</title>
+
+
+
+<link rel="stylesheet" type="text/css" href="styles/bar1.css">
+<script src="scripts/jquery.js" type="text/javascript"></script>
+
+<script>
+window.onload = function(){
+$("#corners").hide();
+$("#over").hide();
+$("#canvas").hide();
+$("#players").hide();
+var W = window.innerWidth-40;
+var H = window.innerHeight-100;
+$("#game").css('top', H/2-80);
+$("#game").css('left', W/2-110);
+$("#btn1").css('top',H/2+80);
+$("#btn1").css('left',W/2-40);
+$("#win").css('left',W/2-100);
+$("#draw").css('left',W/2-40);
+$("#target").css('left',W/2-45);
+$("#target").css('top',H/2+50);
+$("#goals").css('left',W/2+60);
+$("#goals").css('top',H/2+50);
+$("#player1").css('top',10);
+$("#player1").css('left',150);
+$("#player2").css('top',10);
+$("#player2").css('right',150);
+
+
+var select = document.getElementById("select_tag"); 
+var options = new Array("3","4","5","6","7","8","9","10");
+for(var i = 0; i < options.length; i++) {
+    var opt = options[i];
+    var el = document.createElement("option");
+    el.textContent = opt;
+    el.value = opt;
+    select.appendChild(el);
+}
+
+}
+function sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+}
+function btn(){
+
+document.body.style.background="#DEE3DF";
+document.getElementById("win").innerHTML ="";
+document.getElementById("draw").innerHTML ="";
+$("#canvas").show();
+
+var canvas = document.getElementById("canvas");
+var W = canvas.width = window.innerWidth-40;
+var H = canvas.height = window.innerHeight-70;
+
+
+ 
+var ctx = canvas.getContext("2d");
+
+var d="right";
+var posx=W;
+var posy=H/2-50;
+var posx1=10;
+var posy1=H/2-50;
+var ballx=15;
+var bally=posy+30;
+var dirx=3;
+var diry=3;
+var loop;
+	ball_image = new Image();
+  ball_image.src = 'images/ball.png';
+  tennis_ground = new Image();
+  tennis_ground.src = 'images/tennis_ground_b.png';
+ var score=0;
+ var score1=0;
+ var target = $('#select_tag').find(":selected").text();
+ 
+ 
+  
+function bar1()
+{
+	
+	ctx.fillStyle="blue";
+ctx.fillRect(posx,posy,10,100);
+}
+
+
+function bar2()
+{
+	ctx.fillStyle="#63BA64";
+	ctx.fillRect(posx1,posy1,10,100);
+}
+function ball()
+{
+	
+	
+	
+
+	ctx.drawImage(ball_image,ballx,bally,30,30);
+		
+	
+	if((score1==target)||(score==target))
+			{
+			clearInterval(loop);
+			game_over();
+			}
+	
+		if(bally<0)
+		{
+			bally=0;
+			diry*=-1
+		}
+		if(bally>H-25)
+		{
+		bally=H-25;
+		diry*=-1;
+		}
+		if((ballx>W-45)&&(bally>=posy)&&(bally<posy+100))
+		{
+			ballx=W-45;
+			dirx*=-1;
+			
+		}
+		if((ballx>W+10)&&(bally<posy))
+		{
+			
+			document.getElementById("score1").style.background="red";
+			score1++;
+			dirx*=-1;
+			posx=W;
+			posy=H/2-50;
+			posx1=10;
+			posy1=H/2-50;
+			ballx=15;
+			bally=posy+30;
+			sleep(500);
+			document.getElementById("score1").style.background="#72D474";
+			
+		}
+		if((ballx>W+10)&&(bally>posy+100))
+		{		
+			document.getElementById("score1").style.background="red";
+			score1++;
+			dirx*=-1;
+			posx=W;
+			posy=H/2-50;
+			posx1=10;
+			posy1=H/2-50;
+			ballx=15;
+			bally=posy+30;
+			sleep(500);
+			document.getElementById("score1").style.background="#72D474";
+		}
+		
+		
+		if((ballx<=14)&&(bally>=posy1)&&(bally<posy1+100))
+		{
+			ballx=15;			
+			dirx*=-1;			
+			
+		}
+		if((ballx<-35)&&(bally<posy1))
+		{
+			
+			
+			document.getElementById("score").style.background="red";
+			score++;
+			dirx*=-1;
+			posx=W;
+			posy=H/2-50;
+			posx1=10;
+			posy1=H/2-50;
+			ballx=15;
+			bally=posy+30;
+			sleep(500);
+			document.getElementById("score").style.background="#8C9DFF";
+
+		}
+		if((ballx<-35)&&(bally>posy1+100))
+		{		
+		
+			document.getElementById("score").style.background="red";
+		
+			score++;
+			dirx*=-1;
+			posx=W;
+			posy=H/2-50;
+			posx1=10;
+			posy1=H/2-50;
+			ballx=15;
+			bally=posy+30;
+			sleep(500);
+			document.getElementById("score").style.background="#8C9DFF";
+
+		}		
+		
+		
+		ballx+=dirx;
+		bally+=diry;
+		
+	
+	
+}
+
+function game_over(){	
+		
+	
+		//document.getElementById("score1").innerHTML = "Player1 Score : "+score1;
+		//document.getElementById("score").innerHTML = "Player2 Score : "+score;
+		
+		$("#game").show();
+		
+		
+		if(score1>score)
+		{
+		document.getElementById("win").innerHTML = "Player 1 wins the game";
+		
+		$("#win").show();
+		}
+		else if(score1<score)
+		{
+		document.getElementById("win").innerHTML = "Player 2 wins the game"
+		$("#win").show();
+		}
+		else{
+		document.getElementById("draw").innerHTML = "Game Draw";
+		$("#draw").show();
+		}
+		
+		//$("#over").show();
+		
+		
+		
+	}
+
+function draw()
+{
+		
+		$("#game").hide();
+		$("#corners").show();
+		$("#players").show();
+		
+		if(posy<=0)
+		{
+		posy=0;		
+		}
+		if(posy1<=0)
+		{
+		posy1=0;		
+		}
+		if(posy>H-100)
+		{
+		posy=H-100;		
+		}
+		if(posy1>H-100)
+		{
+		posy1=H-100;		
+		}
+		
+
+		if(posx>W-20)
+		{
+		posx=posx-20;
+		}
+		
+		
+
+		ctx.fillStyle="White";
+		ctx.fillRect(0,0,W,H);
+		ctx.drawImage(tennis_ground,0,0,W,H);
+		ctx.fillStyle="Black"
+		ctx.font = "20px Arial";
+		
+		ctx.fillStyle="BLACK";
+		document.getElementById("score").innerHTML="Score: "+ score;
+		document.getElementById("score1").innerHTML="Score: " + score1;
+		
+		$("#score").show();
+		$("#score1").show();	
+		
+		/*var score_text = "Score: " + score;
+		ctx.fillText(score_text, W-100, 25);
+		ctx.fillStyle="BLACK";
+		var score_text = "Score: " + score1;
+		ctx.fillText(score_text, 25, 25);
+		var score_text = "Chances left: " + chance1;
+		ctx.fillText(score_text, 150, 25);
+		var score_text = "Chances left: " + chance;
+		ctx.fillText(score_text, W-300, 25);*/
+		bar1();	
+			bar2();
+		ball();
+	
+}
+
+$(document).keydown(function(e){
+
+		var key=e.which;
+		if(key=="38") {posy-=30;d="left"}
+		else if(key=="40") {posy+=30; d="right"}
+		if(key=="81") {posy1-=30;}
+		else if(key=="65") {posy1+=30;} 
+		
+
+})
+
+
+if(document.getElementById('s').checked)
+loop=setInterval(draw,10);
+if(document.getElementById('f').checked)
+loop=setInterval(draw,5);
+if(document.getElementById('vf').checked)
+loop=setInterval(draw,1);
+
+}
+</script>
+</head>
+<body>
+
+<div id="game" >
+<span id="gs">Game Speed</span><br/>
+<input type="radio" class="speed" name="s" id="s" value="Slow" checked> <label for="s" class="lbl" id="ls">Slow</label><br/>
+
+<input type="radio" class="speed" name="s" id="f" value="Fast"> <label for="f" class="lbl"  id="lf">Fast</label><br/>
+
+<input type="radio" class="speed" name="s" id="vf" value="Very Fast"><label for="vf" class="lbl"  id="lvf">Very Fast</label> <br/>
+<span id="target">Target Score</span>
+<div id="goals">
+<select id="select_tag"> 
+
+</select>
+</div>
+<span id="btn1" onClick="btn()">Start Game</span>
+<span id="over">Game Over!!</span></div>
+<div id="players">
+<span id="player1">Player 1</span>
+<span id="player2">Player 2</span>
+</div>
+<div id="corners">
+<span id="score"></span>
+<span id="score1"></span>
+</div>
+<span id="win"></span>
+<span id="draw"></span>
+<h1 id="score2" style="font-weight:bold;position:fixed;top:440px;left:470px;"></h1>
+<canvas id="canvas">
+</canvas>
+
+</body>
+</html>
