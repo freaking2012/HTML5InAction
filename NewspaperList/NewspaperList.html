@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>  
+  <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+  <style>
+  .container{
+  min-height:100%;
+  height:100%;
+  }
+  </style>
+  
+</head>
+<body>
+
+<div class="container">
+  
+  <div class="btn-group btn-group-justified">
+    <a href="#" class="btn btn-success " id="btnAdd"><span class="glyphicon glyphicon-plus-sign"></span> Add</a>
+    <a href="#" class="btn btn-warning "><span class="glyphicon glyphicon-edit"></span> Edit</a>
+    <a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-circle-arrow-left"></span> Back</a>
+  </div>
+  
+  <br>
+  
+  <div class="row" id="addItem" role="form" >
+	  <div class="col-xs-8">
+	  <input type="text" class="form-control input-xs" placeholder="Item Name" id="itemName">
+	  </div>
+	  
+	  <div class="col-xs-4">
+	  <input type="number" class="form-control input-xs" placeholder="Price" id="itemPrice">
+	  </div>
+	  
+	 
+  
+	</div>
+	<div class="submitClass">
+	<br>
+	
+	<button type="submit" id="btnSubmit"  class=" input-xs btn btn-success" disabled><span class="glyphicon glyphicon-check"></span>  Done</button>
+
+	 
+	<br><br> 
+	</div>
+	<div class="panel panel-default">
+  <div class="panel-heading"><center>Select NewsPapers</center></div>
+  <div class="panel-body">
+
+<div class="row">
+        <div class="col-xs-12">
+            
+            <div  style="overflow: auto;">
+        		<ul class="list-group checked-list-box" id="listGroup" role='listview'>
+                  <li class="list-group-item"> Times of India<span class="label label-default" style="float:right; font-size:15px">5.00</span></li>
+                  <li class="list-group-item"> Hindustan Times<span class="label label-default" style="float:right; font-size:15px">3.00</span></li>
+				  <li class="list-group-item"> Economic Times<span class="label label-default" style="float:right; font-size:15px">4.00</span></li>
+				  <li class="list-group-item"> Navbharat Times<span class="label label-default" style="float:right; font-size:15px">3.50</span></li>
+				  <li class="list-group-item"> Dainik  Jagran<span class="label label-default" style="float:right; font-size:15px">5.00</span></li>
+				  <li class="list-group-item"> Financial Express<span class="label label-default" style="float:right; font-size:15px">2.50</span></li>
+				  <li class="list-group-item"> The Tribune<span class="label label-default" style="float:right; font-size:15px">4.00</span></li>
+                </ul>
+            </div>
+        </div>
+  
+  
+  
+  </div>
+</div>
+
+
+</body>
+<script>
+function makeList() {
+        
+        // Settings
+        var $widget = $(this),
+            $checkbox = $('<input type="checkbox" class="hidden" />'),
+            color = ($widget.data('color') ? $widget.data('color') : "primary"),
+            style = ($widget.data('style') == "button" ? "btn-" : "list-group-item-"),
+            settings = {
+                on: {
+                    icon: 'glyphicon glyphicon-check'
+                },
+                off: {
+                    icon: 'glyphicon glyphicon-unchecked'
+                }
+            };
+            
+        $widget.css('cursor', 'pointer')
+        $widget.append($checkbox);
+
+        // Event Handlers
+        $widget.on('click', function () {
+            $checkbox.prop('checked', !$checkbox.is(':checked'));
+            $checkbox.triggerHandler('change');
+            updateDisplay();
+        });
+        $checkbox.on('change', function () {
+            updateDisplay();
+        });
+          
+
+        // Actions
+        function updateDisplay() {
+            var isChecked = $checkbox.is(':checked');
+
+            // Set the button's state
+            $widget.data('state', (isChecked) ? "on" : "off");
+
+            // Set the button's icon
+            $widget.find('.state-icon')
+                .removeClass()
+                .addClass('state-icon ' + settings[$widget.data('state')].icon);
+
+            // Update the button's color
+            if (isChecked) {
+                $widget.addClass(style + color + ' active');
+            } else {
+                $widget.removeClass(style + color + ' active');
+            }
+        }
+
+        // Initialization
+        function init() {
+            
+            if ($widget.data('checked') == true) {
+                $checkbox.prop('checked', !$checkbox.is(':checked'));
+            }
+            
+            updateDisplay();
+
+            // Inject the icon if applicable
+            if ($widget.find('.state-icon').length == 0) {
+                $widget.prepend('<span class="state-icon ' + settings[$widget.data('state')].icon + '"></span>');
+            }
+        }
+        init();
+    }
+    
+    $('#get-checked-data').on('click', function(event) {
+        event.preventDefault(); 
+        var checkedItems = {}, counter = 0;
+        $("#check-list-box li.active").each(function(idx, li) {
+            checkedItems[counter] = $(li).text();
+            counter++;
+        });
+        $('#display-json').html(JSON.stringify(checkedItems, null, '\t'));
+    });
+
+  $(document).ready( function() {
+  
+  $('#addItem').hide();
+  $('.submitClass').hide();
+  
+  $('.list-group.checked-list-box .list-group-item').each(makeList);  
+  $.mobile.loading().hide();  
+});
+$("#itemPrice").blur(function(){  
+  
+	if ($("#itemPrice").val()=='')
+	alert("Please enter a valid price");
+  
+  });
+  
+  $("#itemPrice").keyup(function(){  
+  if($('#itemName').val()!=''&&$('#itemPrice').val()!='')
+  $('#btnSubmit').removeAttr("disabled");
+  else if($('#itemName').val()==''||$('#itemPrice').val()=='')
+  $('#btnSubmit').prop("disabled",true);
+});
+
+  $("#itemName").keyup(function(){
+  if($('#itemName').val()!=''&&$('#itemPrice').val()!='')
+  $('#btnSubmit').removeAttr("disabled");
+  else if($('#itemName').val()==''||$('#itemPrice').val()=='')  
+  $('#btnSubmit').prop("disabled",true);
+});
+
+	$("#btnSubmit").click(function(){
+	
+	
+	if($("#btnAdd").html()=='<span class="glyphicon glyphicon-minus-sign"></span> Cancel')
+		{
+			$("#btnAdd").html('<span class="glyphicon glyphicon-plus-sign"></span> Add');
+			$("#btnAdd").toggleClass('btn-success btn-danger');
+		}
+	var newItem = '<li class="list-group-item"> '+$("#itemName").val()+'<span class="label label-default" style="float:right; font-size:15px">'+parseFloat($("#itemPrice").val()).toFixed(2)+'</span></li>';	
+	
+	
+	
+	
+	$('#listGroup').append(newItem);	
+	$('.list-group.checked-list-box .list-group-item').each(makeList); 
+	
+	$("#itemName").val('');
+	$("#itemPrice").val('');
+	$('#btnSubmit').prop("disabled",true);
+	$('#addItem').hide();
+		$('.submitClass').hide(); 
+	
+	});
+	
+	$("#btnAdd").click(
+	
+	function(){	
+		$('#addItem').toggle();
+		$('.submitClass').toggle(); 
+		
+		if($("#btnAdd").html()=='<span class="glyphicon glyphicon-plus-sign"></span> Add')
+		{
+			$("#btnAdd").html('<span class="glyphicon glyphicon-minus-sign"></span> Cancel');
+			$("#btnAdd").toggleClass('btn-success btn-danger');
+		}
+		else
+		{
+			$("#btnAdd").html('<span class="glyphicon glyphicon-plus-sign"></span> Add');
+			$("#btnAdd").toggleClass('btn-success btn-danger');
+		}
+		
+	});
+  </script>
+</html>
