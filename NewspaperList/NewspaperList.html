@@ -314,6 +314,17 @@
 	$("#displayScreen").hide();
 	$('#myModal').css({'position':'fixed','height':'100%','top': '30%'});
 	$('#myModalDlt').css({'position':'fixed','height':'100%','top': '30%'});
+	
+	
+	//Check if any newspaper is added
+	if(localStorage.length==0)
+	{
+			$("#popUpMsg").text(" Add newspapers to the list using the Add button !! ");		
+			$("#closeDelete").text("Close");
+			$("#deleteItems").hide();		
+			$("#myModal").modal();
+	}
+	
 //selectScreen Code starts//	
 var d = new Date();
 var weekday = new Array(7);
