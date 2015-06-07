@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
+  <title>NewsPaper List Management</title>
+ <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">  
+   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>  
   <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
@@ -13,57 +13,40 @@
   min-height:100%;
   height:100%;
   }
+  .reduceWidth{
+	margin-left:-25px;
+  }
   </style>
   
 </head>
-<body>
 
-<div class="container">
+
+<body>
+<!--selectScreen container starts-->
+<div class="container" id="selectScreen">
   
   <div class="btn-group btn-group-justified">
     <a href="#" class="btn btn-success " id="btnAdd"><span class="glyphicon glyphicon-plus-sign"></span> Add</a>
-    <a href="#" class="btn btn-warning "><span class="glyphicon glyphicon-edit"></span> Edit</a>
-    <a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-circle-arrow-left"></span> Back</a>
+    <a href="#" class="btn btn-warning " id="btnEdit"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+    <a href="#" class="btn btn-primary" id="btnDelete"><span class="glyphicon glyphicon-remove-sign"></span> Delete</a>
   </div>
   
   <br>
   
-  <div class="row" id="addItem" role="form" >
-	  <div class="col-xs-8">
-	  <input type="text" class="form-control input-xs" placeholder="Item Name" id="itemName">
-	  </div>
-	  
-	  <div class="col-xs-4">
-	  <input type="number" class="form-control input-xs" placeholder="Price" id="itemPrice">
-	  </div>
-	  
-	 
-  
-	</div>
-	<div class="submitClass">
-	<br>
-	
-	<button type="submit" id="btnSubmit"  class=" input-xs btn btn-success" disabled><span class="glyphicon glyphicon-check"></span>  Done</button>
 
-	 
-	<br><br> 
-	</div>
 	<div class="panel panel-default">
-  <div class="panel-heading"><center>Select NewsPapers</center></div>
+  <div class="panel-heading" ><span class="currentDate" ></span>
+  <button type="submit" id="btnSelected" class="btn btn-success" disabled style="float:right;margin-top:-7px;"><span class="glyphicon glyphicon-thumbs-up"></span> Selected</button>  
+  </div>
   <div class="panel-body">
 
 <div class="row">
-        <div class="col-xs-12">
-            
+         
+       
+			<div class="col-xs-12">  
             <div  style="overflow: auto;">
-        		<ul class="list-group checked-list-box" id="listGroup" role='listview'>
-                  <li class="list-group-item"> Times of India<span class="label label-default" style="float:right; font-size:15px">5.00</span></li>
-                  <li class="list-group-item"> Hindustan Times<span class="label label-default" style="float:right; font-size:15px">3.00</span></li>
-				  <li class="list-group-item"> Economic Times<span class="label label-default" style="float:right; font-size:15px">4.00</span></li>
-				  <li class="list-group-item"> Navbharat Times<span class="label label-default" style="float:right; font-size:15px">3.50</span></li>
-				  <li class="list-group-item"> Dainik  Jagran<span class="label label-default" style="float:right; font-size:15px">5.00</span></li>
-				  <li class="list-group-item"> Financial Express<span class="label label-default" style="float:right; font-size:15px">2.50</span></li>
-				  <li class="list-group-item"> The Tribune<span class="label label-default" style="float:right; font-size:15px">4.00</span></li>
+        		<ul class="list-group checked-list-box" id="listGroup" role='listview'>                 
+				  
                 </ul>
             </div>
         </div>
@@ -71,16 +54,325 @@
   
   
   </div>
+    <!-- Modal -->
+  
+
+</div>
+   </div>
+  </div>
+  <!--selectScreen container ends-->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        
+        <div class="modal-body" id="popUpMsg">
+        
+        </div>
+        <div class="modal-footer">
+          
+          <center>
+		  <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" id="deleteItems">Close</button>
+		  <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" id="closeDelete">Close</button>
+		  </center>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+    <div class="modal fade" id="myModalDlt" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        
+        <div class="modal-body" id="popUpMsgDlt">
+        
+        </div>
+        <div class="modal-footer">
+          
+          <center>
+		  <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" id="deleteItems">Close</button>  
+		  </center>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<!--addEditScreen container starts-->
+<div class="container" id="addEditScreen">
+	<br>
+	  <div class="row" role="form" >
+		  <div class="col-xs-12">
+			<input type="text" class="form-control input-xs " id="addScreenItemName" placeholder="Newspaper Name" >
+		  </div>	  	  
+		  
+	  </div>
+	  <br>
+	  <div class="panel panel-default">
+	  
+	  
+	  
+	   <div class="panel-heading">
+	   
+	   
+
+  
+	<div class="row">	
+		<div class="col-xs-8" style="margin-top:-10px;margin-bottom:-15px;"><h4>Day</span></h4></div>
+		<div class="col-xs-4" style="margin-top:-10px;margin-bottom:-15px;"><h4>Price</span></h4></div>
+		
+	</div>
+  
+  
+  </div>
+  <div class="panel-body">
+
+<div class="row">
+         
+       
+			<div class="col-xs-12">  
+            <div  style="overflow: auto;">
+        		<ul class="list-group checked-list-box" id="listGroup" role='listview'>                 
+				<div class="row" >
+					<div class="col-xs-8">
+						<input type="text" class="form-control" value="Monday" readonly/>
+					</div>  
+					<div class="col-xs-4">
+						<input type="number" class="form-control addScreenPrice" id="day1Price" placeholder="00.00"/>
+					</div>  
+				</div>	
+
+				<br>
+				<div class="row" >
+					<div class="col-xs-8">
+						<input type="text" class="form-control" value="Tuesday" readonly/>
+					</div>  
+					<div class="col-xs-4">
+						<input type="number" class="form-control addScreenPrice" id="day2Price" placeholder="00.00"/>
+					</div>  
+				</div>
+
+
+				<br>
+				<div class="row" >
+					<div class="col-xs-8">
+						<input type="text" class="form-control" value="Wednesday" readonly/>
+					</div>  
+					<div class="col-xs-4">
+						<input type="number" class="form-control addScreenPrice" id="day3Price" placeholder="00.00"/>
+					</div>  
+				</div>	
+				
+				<br>
+				<div class="row" >
+					<div class="col-xs-8">
+						<input type="text" class="form-control" value="Thursday" readonly/>
+					</div>  
+					<div class="col-xs-4">
+						<input type="number" class="form-control addScreenPrice" id="day4Price" placeholder="00.00"/>
+					</div>  
+				</div>	
+				
+				<br>
+				<div class="row" >
+					<div class="col-xs-8">
+						<input type="text" class="form-control" value="Friday" readonly/>
+					</div>  
+					<div class="col-xs-4">
+						<input type="number" class="form-control addScreenPrice" id="day5Price" placeholder="00.00"/>
+					</div>  
+				</div>	
+				
+				<br>
+				<div class="row" >
+					<div class="col-xs-8">
+						<input type="text" class="form-control" value="Saturday"  readonly/>
+					</div>  
+					<div class="col-xs-4">
+						<input type="number" class="form-control addScreenPrice" id="day6Price" placeholder="00.00"/>
+					</div>  
+				</div>	
+				
+				<br>
+				<div class="row" >
+					<div class="col-xs-8">
+						<input type="text" class="form-control" value="Sunday" readonly/>
+					</div>  
+					<div class="col-xs-4">
+						<input type="number" class="form-control addScreenPrice" id="day0Price" placeholder="00.00"/>
+					</div>  
+				</div>	
+				
+                </ul>
+            </div>
+			</div>
+		</div>
+	  
+	  
+	  </div>
+  
+	</div>
+	
+	
+	<div class="btn-group btn-group-justified">
+		
+			<a href="#" class="btn btn-success addEditNewspaper" id="addBtnDone"><span class="glyphicon glyphicon-check"></span> Done</a>
+			<a href="#" class="btn btn-success addEditNewspaper" id="editBtnDone"><span class="glyphicon glyphicon-check"></span> Done</a>
+			<a href="#" class="btn btn-primary addEditNewspaper" id="btnAddMore"><span class="glyphicon glyphicon-plus-sign"></span> Add More</a>
+			<a href="#" class="btn btn-danger addEditNewspaper" id="addBtnCancel"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</a>			
+			<a href="#" class="btn btn-danger addEditNewspaper" id="editBtnCancel"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</a>			
+			
+		
+		
+	</div>	
 </div>
 
 
+<!--addEditScreen container ends-->
+<!--displayScreen container starts-->
+
+<div class="container" id="displayScreen">
+	<br>
+	 
+	  <div class="panel panel-default">
+	  
+	  
+	  
+	   <div class="panel-heading">
+	   
+	   
+
+  
+	<span class="currentDate" style="position:absolute;right:10%;"></span>
+	<span style="font-weight:bold">Company</span>
+  </div>
+  <div class="panel-heading">
+	   
+		<div class="row" >
+					<div class="col-xs-6" style="padding-right:1px; ">
+						NewsPaper 
+					</div>  
+					<div class="col-xs-3" style="padding-left:1px; padding-right:1px; ">
+						Quantity
+					</div>  
+					<div class="col-xs-3" style="padding-right:15px;padding-left:0px;">
+						&nbsp;&nbsp;Price
+					</div>  
+				</div>	
+
+  
+	
+  </div>
+  <div class="panel-body">
+
+<div class="row">
+         
+       
+			<div class="col-xs-12">  
+            <div  style="overflow: auto;">
+        		<ul class="list-group checked-list-box" id="displaylistGroup" role='listview'>                 
+									
+                </ul>
+				
+				<div class="row">
+					<div class="col-xs-8" >
+					<a href="#" class="btn btn-danger " id="btnBack"><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
+					<a href="#" class="btn btn-primary " id="btnCalculate" ><span class="glyphicon glyphicon-plus"></span> Amt</a>
+					</div>
+					
+					
+					<div class="col-xs-4" >
+					<input type="text" class="form-control" id="totalAmount" style="padding:1px;"    placeholder="00.00"/>				
+					</div>
+            </div>
+			</div>
+		</div>
+	  
+	  
+	  </div>
+  
+	</div>
+	
+	
+					
+			
+		
+		
+	</div>	
+</div>
+
+<!--displayScreen container ends-->
 </body>
 <script>
+
+  $(document).ready( function() {
+	
+	$("#addEditScreen").hide();
+	$("#displayScreen").hide();
+	$('#myModal').css({'position':'fixed','height':'100%','top': '30%'});
+	$('#myModalDlt').css({'position':'fixed','height':'100%','top': '30%'});
+//selectScreen Code starts//	
+var d = new Date();
+var weekday = new Array(7);
+weekday[0]=  "Sun";
+weekday[1] = "Mon";
+weekday[2] = "Tue";
+weekday[3] = "Wed";
+weekday[4] = "Thu";
+weekday[5] = "Fri";
+weekday[6] = "Sat";
+if(d.getDay()<=5)
+var day = d.getDay()+1;
+else
+var day = 0;
+
+
+var n = weekday[d.getDay()];
+var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+];
+var fullDate = new Date();
+var month = monthNames[fullDate.getMonth()];
+var twoDigitDate = fullDate.getDate()+1+"";if(twoDigitDate.length==1) twoDigitDate="0" +twoDigitDate;
+var currentDate = weekday[day]+" "+twoDigitDate + "/" + month + "/" + fullDate.getFullYear();console.log(currentDate);
+
+$(".currentDate").text(currentDate);
+	
+
+  if (typeof(Storage) != "undefined") {  
+  
+	
+	
+    for(var i=0;i<localStorage.length;i++)
+	{
+	var str=localStorage.getItem(localStorage.key(i)).split("|");	
+	var todaysDay = new Date().getDay();
+	if(todaysDay<=5)
+	todaysDay++;
+	else
+	todaysDay=0;
+	var newItem = '<li class="list-group-item selectItemList" id = listId_'+ localStorage.key(i) +' ><span id=itemId_'+localStorage.key(i)+'> '+str[0]+'</span><span class="label label-default" style="float:right; font-size:15px"  id =priceId_'+ localStorage.key(i) +'  >'+str[todaysDay+1]+'</span></li>';	
+	
+	$('#listGroup').append(newItem);		
+	}
+} else {
+    alert("Sorry, your browser does not support Web Storage...");
+}
+  
+  
+  
+  $('.list-group.checked-list-box .selectItemList').each(makeList);  
+  $.mobile.loading().hide();  
+});
+
 function makeList() {
         
         // Settings
-        var $widget = $(this),
-            $checkbox = $('<input type="checkbox" class="hidden" />'),
+         var $widget = $(this),
+            $checkbox = $('<input type="checkbox"  hidden/>'),
             color = ($widget.data('color') ? $widget.data('color') : "primary"),
             style = ($widget.data('style') == "button" ? "btn-" : "list-group-item-"),
             settings = {
@@ -92,14 +384,16 @@ function makeList() {
                 }
             };
             
-        $widget.css('cursor', 'pointer')
+        $widget.css('cursor', 'pointer');
+		$widget.find('input[type=checkbox]').remove();
         $widget.append($checkbox);
 
         // Event Handlers
         $widget.on('click', function () {
+			
             $checkbox.prop('checked', !$checkbox.is(':checked'));
             $checkbox.triggerHandler('change');
-            updateDisplay();
+            
         });
         $checkbox.on('change', function () {
             updateDisplay();
@@ -109,7 +403,7 @@ function makeList() {
         // Actions
         function updateDisplay() {
             var isChecked = $checkbox.is(':checked');
-
+			
             // Set the button's state
             $widget.data('state', (isChecked) ? "on" : "off");
 
@@ -121,8 +415,19 @@ function makeList() {
             // Update the button's color
             if (isChecked) {
                 $widget.addClass(style + color + ' active');
+				$('#btnSelected').removeAttr('disabled');
             } else {
                 $widget.removeClass(style + color + ' active');
+				
+				var count=0;
+				$('input[type=checkbox]').each(function (idx,chk)
+				{
+					if($(chk).is(':checked'))
+					count++;
+				});
+				if(count==0)
+				$('#btnSelected').prop("disabled",true);
+				
             }
         }
 
@@ -142,87 +447,482 @@ function makeList() {
         }
         init();
     }
+   
     
-    $('#get-checked-data').on('click', function(event) {
-        event.preventDefault(); 
-        var checkedItems = {}, counter = 0;
-        $("#check-list-box li.active").each(function(idx, li) {
-            checkedItems[counter] = $(li).text();
-            counter++;
-        });
-        $('#display-json').html(JSON.stringify(checkedItems, null, '\t'));
-    });
 
-  $(document).ready( function() {
-  
-  $('#addItem').hide();
-  $('.submitClass').hide();
-  
-  $('.list-group.checked-list-box .list-group-item').each(makeList);  
-  $.mobile.loading().hide();  
-});
-$("#itemPrice").blur(function(){  
-  
-	if ($("#itemPrice").val()=='')
-	alert("Please enter a valid price");
-  
-  });
-  
-  $("#itemPrice").keyup(function(){  
-  if($('#itemName').val()!=''&&$('#itemPrice').val()!='')
-  $('#btnSubmit').removeAttr("disabled");
-  else if($('#itemName').val()==''||$('#itemPrice').val()=='')
-  $('#btnSubmit').prop("disabled",true);
-});
 
-  $("#itemName").keyup(function(){
-  if($('#itemName').val()!=''&&$('#itemPrice').val()!='')
-  $('#btnSubmit').removeAttr("disabled");
-  else if($('#itemName').val()==''||$('#itemPrice').val()=='')  
-  $('#btnSubmit').prop("disabled",true);
-});
 
-	$("#btnSubmit").click(function(){
+
+
 	
 	
-	if($("#btnAdd").html()=='<span class="glyphicon glyphicon-minus-sign"></span> Cancel')
+	
+
+
+	$("#btnEdit").click(function(){
+	
+		var count=0;
+		//document.write($widget);
+		$('input[type=checkbox]').each(function (idx,chk)
 		{
-			$("#btnAdd").html('<span class="glyphicon glyphicon-plus-sign"></span> Add');
-			$("#btnAdd").toggleClass('btn-success btn-danger');
+			if($(chk).is(':checked'))
+			{
+			
+			count++;
+			}
+			
+			
+		});
+		
+		if(count==0)
+		{
+			$("#popUpMsg").text("Hey! You did not select any newspaper to edit !!");				
+			$("#myModal").modal();
+			$("#closeDelete").text("Close");
+			$("#deleteItems").hide();
 		}
-	var newItem = '<li class="list-group-item"> '+$("#itemName").val()+'<span class="label label-default" style="float:right; font-size:15px">'+parseFloat($("#itemPrice").val()).toFixed(2)+'</span></li>';	
-	
-	
-	
-	
-	$('#listGroup').append(newItem);	
-	$('.list-group.checked-list-box .list-group-item').each(makeList); 
-	
-	$("#itemName").val('');
-	$("#itemPrice").val('');
-	$('#btnSubmit').prop("disabled",true);
-	$('#addItem').hide();
-		$('.submitClass').hide(); 
+		else if(count>1)
+		{
+			$("#popUpMsg").text("Only one newspaper can be edited at a time. Please select one from the list.");				
+			$("#myModal").modal();
+			$("#closeDelete").text("Close");
+			$("#deleteItems").hide();
+		
+		}
+		else{
+			$("#selectScreen").hide();
+			$("#addEditScreen").show();
+			$("#addBtnCancel").hide();
+			$("#editBtnCancel").show();
+			$("#btnAddMore").hide();
+			$("#addBtnDone").hide();
+			$("#editBtnDone").show();
+			
+			
+			$("li.active").each(function(idx,li)
+			{
+				var id = $(li).attr('id');
+				var idNum = id.split("_")[1];
+				var itemStr;
+				for(i=0;i<localStorage.length;i++)
+				{
+					
+					if(localStorage.key(i)==idNum)
+					{
+					
+						itemStr=localStorage.getItem(localStorage.key(i));
+						//document.write(localStorage.getItem(localStorage.key(i)));
+					}
+				}
+				
+				$("#addScreenItemName").val(itemStr.split('|')[0]);
+				$("#day0Price").val(itemStr.split('|')[1]);
+				$("#day1Price").val(itemStr.split('|')[2]);
+				$("#day2Price").val(itemStr.split('|')[3]);
+				$("#day3Price").val(itemStr.split('|')[4]);
+				$("#day4Price").val(itemStr.split('|')[5]);
+				$("#day5Price").val(itemStr.split('|')[6]);
+				$("#day6Price").val(itemStr.split('|')[7]);
+				$("#addScreenItemName").select();
+				
+			});
+			
+		}
 	
 	});
 	
 	$("#btnAdd").click(
 	
 	function(){	
-		$('#addItem').toggle();
-		$('.submitClass').toggle(); 
-		
-		if($("#btnAdd").html()=='<span class="glyphicon glyphicon-plus-sign"></span> Add')
+	$("#selectScreen").hide();
+	
+	$("#addEditScreen").show();
+	$("#editBtnCancel").hide();
+	$("#addBtnCancel").show();
+	$("#addBtnDone").show();
+	$("#editBtnDone").hide();
+	$("#btnAddMore").show();
+	
+	});
+	
+	$("#btnDelete").click(
+	
+		function(){
+		//localStorage.clear();
+		var count=0;
+		//document.write($widget);
+		$('input[type=checkbox]').each(function (idx,chk)
 		{
-			$("#btnAdd").html('<span class="glyphicon glyphicon-minus-sign"></span> Cancel');
-			$("#btnAdd").toggleClass('btn-success btn-danger');
+			if($(chk).is(':checked'))
+			count++;
+		});
+		
+		
+		
+		if(count>0)
+		{
+		$("#popUpMsg").text("Do you really want to delete selected NewsPapers?? ");		
+		$("#myModal").modal();
+		$("#deleteItems").show();
+		$("#deleteItems").text("Oh Yes!!");
+		$("#closeDelete").text("I am Consfused!!");
 		}
 		else
 		{
-			$("#btnAdd").html('<span class="glyphicon glyphicon-plus-sign"></span> Add');
-			$("#btnAdd").toggleClass('btn-success btn-danger');
+			$("#popUpMsg").text("Hey! You did not select any newspaper !!");
+			$("#myModal").modal();
+			$("#closeDelete").text("Close");
+			$("#deleteItems").hide();
 		}
 		
+		
+		}
+	);
+	
+	$("#deleteItems").click(function()
+	{
+		$("li.active").each(function(idx,li)
+		{
+			var listIdStr=$(li).attr('id').split("_");			
+			
+			localStorage.removeItem(listIdStr[1]);
+			$(li).remove();
+			
+			
+		});
+		$(this).makeList;
+		$("#popUpMsgDlt").text("NewsPapers deleted successfully.");
+			$("#myModalDlt").modal();
+			
 	});
+	
+	
+	//selectScreen Code ends//	
+	
+	//addEditScreen Code starts
+	$(".addScreenPrice").blur(function(){
+	
+		if($(this).val()=='')
+		{
+			$("#popUpMsg").text('Invalid Price entered !!');
+			$("#myModal").modal();
+			$("#closeDelete").text("Close");
+			$("#deleteItems").hide();
+		}
+		else
+		{
+			$(this).val(parseFloat($(this).val()).toFixed(2))
+		}
+	
+	
+	});
+	
+	
+	
+	$(".addEditNewspaper#addBtnDone,.addEditNewspaper#btnAddMore").click(function(){
+		
+		if($("#addScreenItemName").val()!='')
+		{
+		var nextId = localStorage.length+1;
+		var itemStr;
+		var flag=false;
+		var todaysPrice = "#day"+new Date().getDay()+"Price";
+				for(i=0;i<localStorage.length;i++)
+				{
+					var itemStr = localStorage.getItem(localStorage.key(i));
+					if($("#addScreenItemName").val()==itemStr.split('|')[0])
+					{	nextId = localStorage.key(i);					
+						flag=true;
+						break;
+					}
+				}
+		
+		if(flag==true)
+		{
+						
+									
+					$("#listId_"+nextId).text($("#addScreenItemName").val());					
+					$("#priceId_"+nextId).text($(todaysPrice).val());
+		
+					
+			
+		}
+		
+		
+		
+		
+		if(flag==false)
+		{
+			var newItem = '<li class="list-group-item" id = listId_'+ nextId +'><span id=itemId_'+nextId+'> '+$("#addScreenItemName").val()+'</span><span class="label label-default" style="float:right; font-size:15px" id =priceId_'+ nextId +'>'+$(todaysPrice).val()+'</span></li>';
+			
+			$('#listGroup').append(newItem);
+		}
+		$('.list-group.checked-list-box .list-group-item').each(makeList); 
+		$("#listId_"+ nextId).addClass('list-group-item-info');
+		
+		
+	
+		if (typeof(Storage) != "undefined") {
+    // Store
+				
+			
+			localStorage.setItem(nextId,$("#addScreenItemName").val()+"|"+$("#day0Price").val()+"|"+$("#day1Price").val()+"|"+$("#day2Price").val()+"|"+$("#day3Price").val()+"|"+$("#day4Price").val()+"|"+$("#day5Price").val()+"|"+$("#day6Price").val());    
+		}
+
+				else {
+				alert("Sorry, your browser does not support Web Storage...");
+		}
+		
+		$(".addScreenPrice").val('');
+		$("#addScreenItemName").val('');
+		setTimeout(function(){
+      $("#listId_"+ nextId).removeClass('list-group-item-info');}, 3000);
+		
+		if($(this).attr('id')=='addBtnDone')
+		{
+			
+		$("#addEditScreen").hide();
+		$("#selectScreen").show();
+		}
+		
+			if(flag==true)
+			{
+				$("#popUpMsg").text("Newspaper edited successfully. Well Done!!");		
+				$("#closeDelete").text("Close");
+				$("#deleteItems").hide();		
+				$("#myModal").modal();
+			
+			}
+			else
+			{
+				$("#popUpMsg").text("Newspaper added successfully. Well Done!!");		
+				$("#closeDelete").text("Close");
+				$("#deleteItems").hide();		
+				$("#myModal").modal();
+			}
+		}else{
+			
+			
+			$("#popUpMsg").text("Hey, Newspaper name cannot be blank!! ");		
+			$("#closeDelete").text("Close");
+			$("#deleteItems").hide();		
+			$("#myModal").modal();
+		
+		}
+		
+		
+		
+		
+	
+	});
+	
+	
+	
+	$(".addEditNewspaper#editBtnDone").click(function(){
+		
+		
+		if($("#addScreenItemName").val()!='')
+		{
+		
+		var itemStr;
+		var nextId;
+		var day=new Date().getDay();
+		if(day<=5)
+		day++;
+		else if(day==6)
+		day=0;
+		var todaysPrice = "#day"+day+"Price";
+				$("li.active").each(function(idx, li) {
+				
+					var items=$(li).attr('id').split("_");	
+				
+					nextId=items[1];
+				
+				});
+								
+					$("#itemId_"+nextId).text($("#addScreenItemName").val());					
+					$("#priceId_"+nextId).text($(todaysPrice).val());
+		
+					
+		
+		$('.list-group.checked-list-box .list-group-item').each(makeList); 
+		$("#listId_"+ nextId).addClass('list-group-item-info');
+		
+		$('input[type=checkbox]').each(function(idx,chk){
+			if($(chk).is(':checked'))
+			{
+				alert("hey");
+				$(chk).prop('checked',false);
+			}
+		});
+	
+		if (typeof(Storage) != "undefined") {
+    // Store
+				
+			
+			localStorage.setItem(nextId,$("#addScreenItemName").val()+"|"+$("#day0Price").val()+"|"+$("#day1Price").val()+"|"+$("#day2Price").val()+"|"+$("#day3Price").val()+"|"+$("#day4Price").val()+"|"+$("#day5Price").val()+"|"+$("#day6Price").val());    
+		}
+
+				else {
+				alert("Sorry, your browser does not support Web Storage...");
+		}
+		
+		$(".addScreenPrice").val('');
+		$("#addScreenItemName").val('');
+		setTimeout(function(){
+      $("#listId_"+ nextId).removeClass('list-group-item-info');}, 3000);
+		
+		
+			
+		$("#addEditScreen").hide();
+		$("#selectScreen").show();
+		
+		
+			
+				$("#popUpMsg").text("Newspaper edited successfully. Well Done!!");		
+				$("#closeDelete").text("Close");
+				$("#deleteItems").hide();		
+				$("#myModal").modal();
+			
+			
+		}else{
+			
+			
+			$("#popUpMsg").text("Hey, Newspaper name cannot be blank!! ");		
+			$("#closeDelete").text("Close");
+			$("#deleteItems").hide();		
+			$("#myModal").modal();
+		
+		}
+		
+		
+		
+		
+	
+	});
+	
+	
+	
+	
+	
+	$(".addEditNewspaper#addBtnCancel").click(function()
+	{
+		
+		$(".addScreenPrice").val('');
+		$("#addScreenItemName").val('');		
+		$("#addEditScreen").hide();
+		$("#selectScreen").show();
+		
+		$("#popUpMsg").text("Argh!! NewsPaper addition was cancelled !! ");		
+		$("#closeDelete").text("Close");
+		$("#deleteItems").hide();		
+		$("#myModal").modal();
+	
+	
+	});
+	
+	$(".addEditNewspaper#editBtnCancel").click(function()
+	{
+		
+		$(".addScreenPrice").val('');
+		$("#addScreenItemName").val('');		
+		$("#addEditScreen").hide();
+		$("#selectScreen").show();
+		
+		$("#popUpMsg").text(" NewsPaper details are same as before !! ");		
+		$("#closeDelete").text("Close");
+		$("#deleteItems").hide();		
+		$("#myModal").modal();
+	
+	
+	});
+	//addEditScreen Code ends
+	//displayScreen code starts
+	var totalNewspapers=0;
+$("#btnSelected").click(function()
+	{
+		$("#popUpMsg").text("NewsPapers have been selected successfully");
+		$("#myModal").modal();
+		$("#closeDelete").text("Close");
+		$("#deleteItems").hide();
+		$("#selectScreen").hide();		
+		$("#displayScreen").show();
+		
+		$("li.active").each(function(idx,li){
+		
+			var itemsId = $(li).attr('id').split("_")[1];
+			
+			var newspaperName = $("#itemId_"+itemsId).text();
+			var newspaperPrice = $("#priceId_"+itemsId).text();
+			$("#displaylistGroup").append('<div class="row" ><div class="col-xs-6 newspaperList" style="padding-right:1px;" id=newspaperName_'+itemsId+'>'+newspaperName+'</div><div class="col-xs-3"  style="padding-left:1px; padding-right:1px; "><input type="number" class="form-control quantity"  style="padding:2px;"  id=quantity_'+itemsId+' placeholder="0"/></div><div class="col-xs-3" style="padding-right:15px;padding-left:0px;"><input type="number" class="form-control newspaperPrice"   style="padding:2px;margin-right:-5px;" value='+newspaperPrice+' id=newspaperPrice_'+itemsId+' placeholder="00.00"/></div></div>');
+			totalNewspapers++;
+		});
+		
+		
+		
+	});
+	
+	$("#btnCalculate").click(function(){
+		
+		var result=0;
+		var flag=true;
+		$(".newspaperList").each(function(idx,newspaper){
+			
+			var id = $(newspaper).attr('id').split('_')[1];
+			
+			var quantity = $("#quantity_"+id).val();
+			var price = $("#newspaperPrice_"+id).val();
+			if(quantity==''||price=='')
+			{
+				flag=false;
+				
+			}
+		});
+		if(flag==true)
+		{
+		
+			
+		$(".newspaperList").each(function(idx,newspaper){
+			
+			var id = $(newspaper).attr('id').split('_')[1];
+			
+			var quantity = $("#quantity_"+id).val();
+			var price = $("#newspaperPrice_"+id).val();
+			result = result + (price*quantity);
+		});
+		result = parseFloat(result).toFixed(2);
+		$("#totalAmount").val(result);
+		}
+		else{
+		
+			$("#popUpMsg").text(" Quantity or Price is incorrect !! ");		
+			$("#closeDelete").text("Close");
+			$("#deleteItems").hide();		
+			$("#myModal").modal();
+		
+		
+		}
+	
+	});
+	
+	
+	$("#btnBack").click(function(){
+	
+	
+	$("#displaylistGroup").empty();
+	
+	$("#displayScreen").hide();
+	$("#selectScreen").show();
+	
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	//displayScreen code starts
   </script>
 </html>
