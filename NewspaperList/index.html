@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>NewsPaper List Management</title>
+ <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1">
+   <link rel="stylesheet" href="css/bootstrap.css">  
+  <script text="text/javascript" src="js/jquery.js"></script>
+  <script text="text/javascript" src="js/bootstrap.js"></script>  
+  <script text="text/javascript" src="js/jqueryMobile.js"></script>
+  <link rel="stylesheet" href="css/NewspaperList.css">
+  
+  
+</head>
+
+
+<body>
+<!--selectScreen container starts-->
+<div class="container" id="selectScreen">
+  
+  <div class="btn-group btn-group-justified">
+    <a href="#" class="btn btn-success " id="btnAdd"><span class="glyphicon glyphicon-plus-sign"></span> Add</a>
+    <a href="#" class="btn btn-warning " id="btnEdit"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+    <a href="#" class="btn btn-primary" id="btnDelete"><span class="glyphicon glyphicon-remove-sign"></span> Delete</a>
+  </div>
+  
+  <br>
+  
+
+	<div class="panel panel-default">
+  <div class="panel-heading" ><span class="currentDate" ></span>
+  <button type="submit" id="btnSelected" class="btn btn-success" disabled style="float:right;margin-top:-7px;"><span class="glyphicon glyphicon-thumbs-up"></span> Selected</button>  
+  </div>
+  <div class="panel-body">
+
+<div class="row">
+         
+       
+			<div class="col-xs-12">  
+            <div  style="overflow: auto;">
+        		<ul class="list-group checked-list-box" id="listGroup" role='listview'>                 
+				  
+                </ul>
+            </div>
+        </div>
+  
+  
+  
+  </div>
+    <!-- Modal -->
+  
+
+</div>
+   </div>
+  </div>
+  <!--selectScreen container ends-->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        
+        <div class="modal-body" id="popUpMsg">
+        
+        </div>
+        <div class="modal-footer">
+          
+          <center>
+		  <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" id="deleteItems">Close</button>
+		  <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" id="closeDelete">Close</button>
+		  </center>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+    <div class="modal fade" id="myModalDlt" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        
+        <div class="modal-body" id="popUpMsgDlt">
+        
+        </div>
+        <div class="modal-footer">
+          
+          <center>
+		  <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" id="deleteItems">Close</button>  
+		  </center>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<!--addEditScreen container starts-->
+<div class="container" id="addEditScreen">
+	<br>
+	  <div class="row" role="form" >
+		  <div class="col-xs-12">
+			<input type="text" class="form-control input-xs " id="addScreenItemName" placeholder="Newspaper Name" >
+		  </div>	  	  
+		  
+	  </div>
+	  <br>
+	  <div class="panel panel-default">
+	  
+	  
+	  
+	   <div class="panel-heading">
+	   
+	   
+
+  
+	<div class="row">	
+		<div class="col-xs-8" style="margin-top:-10px;margin-bottom:-15px;"><h4>Day</span></h4></div>
+		<div class="col-xs-4" style="margin-top:-10px;margin-bottom:-15px;"><h4>Price</span></h4></div>
+		
+	</div>
+  
+  
+  </div>
+  <div class="panel-body">
+
+<div class="row">
+         
+       
+			<div class="col-xs-12">  
+            <div  style="overflow: auto;">
+        		<ul class="list-group checked-list-box" id="listGroup" role='listview'>                 
+				<div class="row" >
+					<div class="col-xs-8">
+						<input type="text" class="form-control" value="Monday" readonly/>
+					</div>  
+					<div class="col-xs-4">
+						<input type="number" class="form-control addScreenPrice" id="day1Price" placeholder="00.00"/>
+					</div>  
+				</div>	
+
+				<br>
+				<div class="row" >
+					<div class="col-xs-8">
+						<input type="text" class="form-control" value="Tuesday" readonly/>
+					</div>  
+					<div class="col-xs-4">
+						<input type="number" class="form-control addScreenPrice" id="day2Price" placeholder="00.00"/>
+					</div>  
+				</div>
+
+
+				<br>
+				<div class="row" >
+					<div class="col-xs-8">
+						<input type="text" class="form-control" value="Wednesday" readonly/>
+					</div>  
+					<div class="col-xs-4">
+						<input type="number" class="form-control addScreenPrice" id="day3Price" placeholder="00.00"/>
+					</div>  
+				</div>	
+				
+				<br>
+				<div class="row" >
+					<div class="col-xs-8">
+						<input type="text" class="form-control" value="Thursday" readonly/>
+					</div>  
+					<div class="col-xs-4">
+						<input type="number" class="form-control addScreenPrice" id="day4Price" placeholder="00.00"/>
+					</div>  
+				</div>	
+				
+				<br>
+				<div class="row" >
+					<div class="col-xs-8">
+						<input type="text" class="form-control" value="Friday" readonly/>
+					</div>  
+					<div class="col-xs-4">
+						<input type="number" class="form-control addScreenPrice" id="day5Price" placeholder="00.00"/>
+					</div>  
+				</div>	
+				
+				<br>
+				<div class="row" >
+					<div class="col-xs-8">
+						<input type="text" class="form-control" value="Saturday"  readonly/>
+					</div>  
+					<div class="col-xs-4">
+						<input type="number" class="form-control addScreenPrice" id="day6Price" placeholder="00.00"/>
+					</div>  
+				</div>	
+				
+				<br>
+				<div class="row" >
+					<div class="col-xs-8">
+						<input type="text" class="form-control" value="Sunday" readonly/>
+					</div>  
+					<div class="col-xs-4">
+						<input type="number" class="form-control addScreenPrice" id="day0Price" placeholder="00.00"/>
+					</div>  
+				</div>	
+				
+                </ul>
+            </div>
+			</div>
+		</div>
+	  
+	  
+	  </div>
+  
+	</div>
+	
+	
+	<div class="btn-group btn-group-justified">
+		
+			<a href="#" class="btn btn-success addEditNewspaper" id="addBtnDone"><span class="glyphicon glyphicon-check"></span> Done</a>
+			<a href="#" class="btn btn-success addEditNewspaper" id="editBtnDone"><span class="glyphicon glyphicon-check"></span> Done</a>
+			<a href="#" class="btn btn-primary addEditNewspaper" id="btnAddMore"><span class="glyphicon glyphicon-plus-sign"></span> Add More</a>
+			<a href="#" class="btn btn-danger addEditNewspaper" id="addBtnCancel"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</a>			
+			<a href="#" class="btn btn-danger addEditNewspaper" id="editBtnCancel"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</a>			
+			
+		
+		
+	</div>	
+</div>
+
+
+<!--addEditScreen container ends-->
+<!--displayScreen container starts-->
+
+<div class="container" id="displayScreen">
+	<br>
+	 
+	  <div class="panel panel-default">
+	  
+	  
+	  
+	   <div class="panel-heading">
+	   
+	   
+
+  
+	<span class="currentDate" style="position:absolute;right:10%;"></span>
+	<span style="font-weight:bold">Company</span>
+  </div>
+  <div class="panel-heading">
+	   
+		<div class="row" >
+					<div class="col-xs-6" style="padding-right:1px; ">
+						NewsPaper 
+					</div>  
+					<div class="col-xs-3" style="padding-left:1px; padding-right:1px; ">
+						Quantity
+					</div>  
+					<div class="col-xs-3" style="padding-right:15px;padding-left:0px;">
+						&nbsp;&nbsp;Price
+					</div>  
+				</div>	
+
+  
+	
+  </div>
+  <div class="panel-body">
+
+<div class="row">
+         
+       
+			<div class="col-xs-12">  
+            <div  style="overflow: auto;">
+        		<ul class="list-group checked-list-box" id="displaylistGroup" role='listview'>                 
+									
+                </ul>
+				
+				<div class="row">
+					<div class="col-xs-8" >
+					<a href="#" class="btn btn-danger " id="btnBack"><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
+					<a href="#" class="btn btn-primary " id="btnCalculate" ><span class="glyphicon glyphicon-plus"></span> Amt</a>
+					</div>
+					
+					
+					<div class="col-xs-4" >
+					<input type="text" class="form-control" id="totalAmount" style="padding:1px;"    placeholder="00.00"/>				
+					</div>
+            </div>
+			</div>
+		</div>
+	  
+	  
+	  </div>
+  
+	</div>
+	
+	
+					
+			
+		
+		
+	</div>	
+</div>
+
+<!--displayScreen container ends-->
+</body>
+<script type="text/javascript" src="js/NewspaperList.js"></script>
+</html>
